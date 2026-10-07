@@ -187,6 +187,54 @@ body:after{width:520px;height:520px;right:-220px;top:280px;border-radius:50%;bac
 }
 
 
+
+/* V26 — egyetlen, összefüggő, statikus égbolt-jelenet; nincs animáció, nincs duplikált nagy időjárási ikon */
+.weather-orbit{display:none!important}
+.live-weather-art{position:relative;isolation:isolate;overflow:hidden;background:#214b77}
+.weather-stage-glow{display:none!important}
+.weather-scene{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;contain:layout paint style;z-index:0;background:linear-gradient(180deg,#4f9bd8 0%,#8cccf0 52%,#d9edf6 100%)}
+.weather-scene.phase-dawn{background:linear-gradient(180deg,#1d2f58 0%,#6d5477 30%,#d98970 60%,#f4bd86 74%,#94b3cd 100%)}
+.weather-scene.phase-dusk{background:linear-gradient(180deg,#1f3156 0%,#6b4f73 30%,#d17e6b 58%,#eaa979 72%,#617f9f 100%)}
+.weather-scene.phase-night{background:radial-gradient(circle at 72% 20%,rgba(73,104,151,.16),transparent 28%),linear-gradient(180deg,#02050d 0%,#071327 46%,#102944 72%,#183c54 100%)}
+.weather-scene.season-winter.phase-day{background:linear-gradient(180deg,#6d9fca 0%,#b9d9ea 54%,#e5f1f7 100%)}
+.weather-scene.season-spring.phase-day{background:linear-gradient(180deg,#62b0e7 0%,#a7dbf2 54%,#def0f5 100%)}
+.weather-scene.season-summer.phase-day{background:linear-gradient(180deg,#4f9fe1 0%,#86cdf0 50%,#d8f0fa 100%)}
+.weather-scene.season-autumn.phase-day{background:linear-gradient(180deg,#5f9fd2 0%,#a7cfe4 45%,#e4d4bd 100%)}
+.weather-scene.phase-night.season-winter{background:linear-gradient(180deg,#030814 0%,#0b2038 55%,#1b3146 100%)}
+.weather-scene.phase-night.season-summer{background:linear-gradient(180deg,#061126 0%,#0b2340 55%,#174261 100%)}
+.weather-scene .scene-stars{position:absolute;inset:0;opacity:0;background-image:radial-gradient(circle at 10% 18%,rgba(255,255,255,.92) 0 1px,transparent 1.5px),radial-gradient(circle at 23% 30%,rgba(255,255,255,.7) 0 1px,transparent 1.5px),radial-gradient(circle at 38% 14%,rgba(255,255,255,.8) 0 1px,transparent 1.5px),radial-gradient(circle at 53% 24%,rgba(255,255,255,.62) 0 1px,transparent 1.5px),radial-gradient(circle at 67% 14%,rgba(255,255,255,.78) 0 1px,transparent 1.5px),radial-gradient(circle at 82% 26%,rgba(255,255,255,.86) 0 1px,transparent 1.5px),radial-gradient(circle at 92% 12%,rgba(255,255,255,.6) 0 1px,transparent 1.5px),radial-gradient(circle at 74% 43%,rgba(255,255,255,.56) 0 1px,transparent 1.5px)}
+.weather-scene.phase-night .scene-stars{opacity:.82}
+.scene-horizon{position:absolute;left:-5%;right:-5%;bottom:-3%;height:42%;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(9,26,46,.40));border-radius:50% 50% 0 0/20% 20% 0 0;z-index:2}
+.scene-sun,.scene-moon{position:absolute;border-radius:50%;transform:translate(-50%,-50%);z-index:4}
+.scene-sun{left:var(--sun-x,50%);top:var(--sun-y,24%);width:var(--sun-size,72px);height:var(--sun-size,72px);background:radial-gradient(circle at 35% 30%,#fffef9 0 8%,#fff2a5 18%,#ffd15a 44%,#f5a52f 70%,#cf7416 100%);box-shadow:0 0 10px rgba(255,246,194,.86),0 0 28px rgba(255,214,111,.62),0 0 66px rgba(255,182,69,.34)} .scene-sun:before{content:"";position:absolute;inset:-11%;border-radius:50%;background:radial-gradient(circle,rgba(255,245,186,.26) 0 38%,rgba(255,191,77,0) 72%);mix-blend-mode:screen}.scene-sun:after{content:"";position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle at 63% 58%,rgba(205,111,14,.18),transparent 28%),radial-gradient(circle at 38% 33%,rgba(255,255,255,.22),transparent 18%);opacity:.75}
+.scene-sun.low{filter:saturate(.92);box-shadow:0 0 28px rgba(255,195,104,.36),0 0 72px rgba(255,164,76,.18)}
+.scene-moon{left:var(--moon-x,74%);top:var(--moon-y,27%);width:var(--moon-size,62px);height:var(--moon-size,62px);background:radial-gradient(circle at 34% 30%,#ffffff 0 8%,#eef3f7 28%,#d4dce3 68%,#a8b4bf 100%);box-shadow:0 0 8px rgba(255,255,255,.86),0 0 24px rgba(208,227,246,.34),0 0 55px rgba(160,194,226,.14);filter:saturate(.86) contrast(1.03)} .scene-moon:before{content:"";position:absolute;inset:4%;border-radius:50%;background:radial-gradient(circle at 28% 34%,rgba(111,124,136,.16) 0 7%,transparent 8%),radial-gradient(circle at 62% 26%,rgba(102,117,131,.13) 0 9%,transparent 10%),radial-gradient(circle at 54% 67%,rgba(94,108,122,.16) 0 11%,transparent 12%),radial-gradient(circle at 30% 72%,rgba(90,104,118,.10) 0 7%,transparent 8%),radial-gradient(circle at 77% 58%,rgba(95,110,124,.10) 0 6%,transparent 7%);opacity:.9}
+.scene-moon:after{content:"";position:absolute;left:var(--moon-cut-x,-12px);top:var(--moon-cut-y,-4px);width:100%;height:100%;border-radius:50%;background:#0b1d36;opacity:var(--moon-cut-opacity,0)}
+.weather-scene.phase-night .scene-moon:after{background:linear-gradient(180deg,#071327,#0d2037 72%,#12314a)}
+.weather-scene.phase-day .scene-moon,.weather-scene.phase-dawn .scene-moon,.weather-scene.phase-dusk .scene-moon{display:none}
+.weather-scene.phase-night .scene-sun{display:none}
+.scene-cloud{position:absolute;width:34%;height:22%;border-radius:48%;opacity:var(--cloud-opacity,.18);z-index:5;background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(235,242,249,.90) 52%,rgba(191,208,224,.78) 100%);box-shadow:0 12px 26px rgba(22,48,73,.10);filter:saturate(.94)}
+.scene-cloud:before,.scene-cloud:after{content:"";position:absolute;border-radius:50%;background:inherit}
+.scene-cloud:before{width:54%;height:120%;left:12%;top:-52%}.scene-cloud:after{width:42%;height:95%;right:13%;top:-32%}
+.scene-cloud-a{left:-5%;top:9%;transform:scale(1.12)}
+.scene-cloud-b{right:-6%;top:19%;transform:scale(.92)}
+.scene-cloud-c{left:23%;top:52%;transform:scale(.72)}
+.scene-cloud-d{left:55%;top:42%;transform:scale(.52);opacity:calc(var(--cloud-opacity,.18) * .82)}
+.scene-cloud-e{left:-10%;top:62%;transform:scale(.58);opacity:calc(var(--cloud-opacity,.18) * .68)}
+.weather-scene.phase-night .scene-cloud{background:linear-gradient(180deg,rgba(177,196,218,.60),rgba(102,125,151,.50));box-shadow:0 12px 28px rgba(0,0,0,.16)}
+.scene-rain{position:absolute;inset:-5% 0 0;z-index:6;opacity:var(--rain-opacity,0);background:repeating-linear-gradient(110deg,transparent 0 29px,rgba(145,216,255,.19) 30px 31px,transparent 32px 56px)}
+.scene-snow{position:absolute;inset:0;z-index:6;opacity:var(--snow-opacity,0);background:radial-gradient(circle at 12% 22%,rgba(255,255,255,.88) 0 2px,transparent 2.8px),radial-gradient(circle at 28% 31%,rgba(255,255,255,.80) 0 2.4px,transparent 3.2px),radial-gradient(circle at 46% 22%,rgba(255,255,255,.78) 0 2.2px,transparent 3px),radial-gradient(circle at 63% 36%,rgba(255,255,255,.88) 0 2.8px,transparent 3.5px),radial-gradient(circle at 81% 26%,rgba(255,255,255,.74) 0 2px,transparent 2.8px),radial-gradient(circle at 92% 45%,rgba(255,255,255,.85) 0 2.3px,transparent 3px)}
+.scene-fog{position:absolute;left:-5%;right:-5%;bottom:10%;height:25%;z-index:7;opacity:var(--fog-opacity,0);background:linear-gradient(180deg,transparent,rgba(242,248,252,.32) 48%,rgba(242,248,252,.18));filter:blur(1px)}
+.scene-haze{position:absolute;inset:0;z-index:1;opacity:var(--haze-opacity,0);background:linear-gradient(180deg,rgba(238,202,145,.10),rgba(212,188,158,.17) 58%,rgba(210,198,184,.10));}
+.scene-storm{position:absolute;inset:0;z-index:1;opacity:var(--storm-opacity,0);background:radial-gradient(circle at 75% 20%,rgba(118,151,194,.22),transparent 36%),linear-gradient(180deg,rgba(35,49,70,.10),rgba(27,38,55,.28))}
+.scene-label{position:absolute;right:16px;top:14px;z-index:10;padding:7px 10px;border-radius:999px;background:rgba(5,20,37,.38);border:1px solid rgba(255,255,255,.16);color:#f3f8ff;font:800 9px/1 'Manrope',sans-serif;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 6px 18px rgba(1,10,20,.12)}
+.scene-measure{position:absolute;left:16px;top:14px;z-index:10;padding:7px 10px;border-radius:12px;background:rgba(4,18,33,.34);border:1px solid rgba(255,255,255,.12);color:#eff7ff;font:700 10px/1.1 'Manrope',sans-serif}.scene-measure b{font:800 15px/1 'Space Grotesk',sans-serif;margin-right:4px}
+.weather-scene.phenomenon-storm .scene-cloud{opacity:calc(var(--cloud-opacity,.18) + .12);filter:saturate(.76) brightness(.88)}
+.weather-scene.phenomenon-snow .scene-cloud{background:linear-gradient(180deg,rgba(253,254,255,.98),rgba(222,232,242,.92) 55%,rgba(187,204,220,.82) 100%)}
+.weather-scene.phenomenon-fog .scene-cloud{opacity:calc(var(--cloud-opacity,.18) + .08)}
+.perf-lite .weather-scene .scene-cloud{box-shadow:none;filter:none}.perf-lite .weather-scene .scene-sun{box-shadow:0 0 20px rgba(255,211,104,.22)}
+@media(prefers-reduced-motion:reduce){.weather-scene *{animation:none!important;transition:none!important}}
+
 /* V15 — kompakt prémium fejléc + egysoros, vízszintesen görgethető statok */
 .hero-live{
   min-height:0;
@@ -536,10 +584,81 @@ html{scroll-behavior:auto !important;scrollbar-gutter:stable;}
   .chat-entry-new{animation-duration:.30s !important;}
 }
 @media (prefers-reduced-motion:reduce){.chat-entry-new,.chat-entry-new .chat-avatar{animation:none !important}.btn,.tab,input,select{transition:none !important}}
+
+/* V23 — mobile card fit: desktop unchanged */
+@media (max-width:700px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  .wrap{width:100%;max-width:100%;margin-inline:auto;padding-left:10px;padding-right:10px;box-sizing:border-box}
+  .hero-live,.topbar,.card,#globalStatus,.panel,.sectionhead,.toolbar,.grid2,.formgrid,.chat-list,.chat-row,.chat-bubble,.chat-body,.entry,.verse,.fact,.dangerbar{max-width:100%;box-sizing:border-box}
+  .hero-live{width:100%;margin-inline:auto;overflow:hidden}
+  .hero-live .hero-grid{width:100%;min-width:0}
+  .hero-copy,.hero-art,.live-weather-art{min-width:0;max-width:100%}
+  .live-weather-art{width:100%;height:auto;min-height:0;box-sizing:border-box}
+  .hero-data-grid{width:100%;max-width:100%;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px;box-sizing:border-box}
+  .weather-data-card{width:100%;min-width:0!important;max-width:100%;box-sizing:border-box;overflow:hidden}
+  .weather-data-card b,.weather-data-card small{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+  .hero-forecast{width:100%;max-width:100%;grid-template-columns:repeat(2,minmax(0,1fr))!important;box-sizing:border-box}
+  .forecast-chip{min-width:0;max-width:100%;box-sizing:border-box;overflow:hidden}
+  .forecast-chip>div{min-width:0;max-width:100%}
+  .forecast-chip b{overflow-wrap:anywhere;word-break:break-word}
+  .hero-live-card{width:auto;max-width:calc(100% - 20px);box-sizing:border-box}
+  .hero-live-card>div{min-width:0}
+  .hero-live-card b{white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+  .stats{width:100%;max-width:100%;box-sizing:border-box;justify-content:center;overflow-x:visible!important;overflow-y:visible;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px;padding:2px 0 8px!important}
+  .stat{width:100%!important;min-width:0!important;max-width:100%;box-sizing:border-box;padding-left:52px!important;overflow:hidden}
+  .stat span{white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;line-height:1.18!important}
+  .stat b{white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  .tabs{width:100%;max-width:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
+  .tabs::-webkit-scrollbar{height:4px}
+  .tab{flex:0 0 auto}
+  .chat-list{width:100%;max-width:100%;overflow:visible}
+  .chat-row{width:100%;max-width:100%;overflow:visible;align-items:flex-start}
+  .chat-avatar{flex:0 0 34px}
+  .chat-bubble{width:calc(100% - 42px);max-width:none;overflow:visible}
+  .chat-top{min-width:0;flex-wrap:wrap}
+  .chat-kind{min-width:0;max-width:100%;flex:1 1 auto}
+  .chat-kind .title{overflow-wrap:anywhere;word-break:break-word}
+  .chat-time{flex:0 0 auto}
+  .chat-body{width:100%;max-width:100%;overflow:visible;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;box-sizing:border-box}
+  .chat-footer{width:100%;max-width:100%}
+  .chat-meta{overflow-wrap:anywhere;word-break:break-word}
+  .chat-actions{width:100%;justify-content:flex-start}
+  .chat-actions .btn{max-width:100%}
+  .sectionhead{align-items:flex-start}
+  .sectionhead h2{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+  .sub{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+  .toolbar>*{max-width:100%;box-sizing:border-box}
+  .toolbar input{min-width:0!important;width:100%;}
+}
+@media (max-width:430px){
+  .wrap{padding-left:8px;padding-right:8px}
+  .hero-live{padding-left:12px!important;padding-right:12px!important}
+  .hero-data-grid,.hero-forecast{grid-template-columns:1fr!important}
+  .stats{grid-template-columns:1fr!important}
+  .stat{min-height:74px!important;height:auto!important;padding:10px 12px 10px 52px!important}
+  .stat:before{left:10px!important;width:32px!important;height:32px!important}
+  .stat b{font-size:23px!important}
+  .weather-data-card{min-height:78px!important}
+  .chat-row{gap:7px}
+  .chat-bubble{width:calc(100% - 41px);padding:10px!important}
+  .chat-top{gap:6px}
+  .chat-time{font-size:10px}
+  .chat-body{font-size:12.5px!important;line-height:1.55!important;padding:10px!important}
+}
+@media (max-width:340px){
+  .wrap{padding-left:6px;padding-right:6px}
+  .hero-live{padding-left:10px!important;padding-right:10px!important}
+  .stat span{font-size:9px!important}
+  .stat b{font-size:21px!important}
+  .chat-avatar{flex-basis:30px;width:30px;height:30px;font-size:14px}
+  .chat-bubble{width:calc(100% - 37px)}
+}
+
 </style>
 <script>
 (function(){try{var n=navigator||{},c=Number(n.hardwareConcurrency||8),m=Number(n.deviceMemory||8),touch=('ontouchstart' in window)||(n.maxTouchPoints>0),save=!!(n.connection&&n.connection.saveData);if(c<=4||m<=4||touch||save)document.documentElement.classList.add('perf-lite')}catch(e){}})();
 </script>
+<style>.weather-graphic{display:none !important}.scene-twc-icon,.scene-twc-fallback{display:none!important}</style>
 </head>
 <body>
 <div class="wrap">
@@ -557,9 +676,19 @@ html{scroll-behavior:auto !important;scrollbar-gutter:stable;}
     </div>
     <div class="hero-art live-weather-art" id="heroWeatherArt">
       <div class="weather-stage-glow"></div>
-      <div class="weather-orbit orbit-sun" aria-hidden="true"></div>
-      <div class="weather-orbit orbit-moon" aria-hidden="true"></div>
-      <div class="weather-graphic" id="heroWeatherGraphic" aria-label="Aktuális időjárási ikon"></div>
+      <div class="weather-scene phase-day" id="heroWeatherScene" aria-hidden="true">
+        <div class="scene-stars"></div>
+        <div class="scene-sun-wrap"><div class="scene-sun"></div></div>
+        <div class="scene-moon"></div>
+        <div class="scene-cloud scene-cloud-a"></div>
+        <div class="scene-cloud scene-cloud-b"></div>
+        <div class="scene-cloud scene-cloud-c"></div>
+        <div class="scene-rain"></div>
+        <div class="scene-fog"></div>
+        <div class="scene-horizon"></div>
+        <div class="scene-label" id="heroSceneLabel">VALÓS IDEJŰ TWC JELENET</div>
+        <div class="scene-measure"><b id="heroSceneCloudPct">—%</b>FELHŐBORÍTÁS</div>
+      </div>
       <div class="hero-weather-main">
         <div class="hero-temp" id="heroTemp">—°</div>
         <div class="hero-feels" id="heroFeels">Hőérzet —</div>
@@ -890,15 +1019,65 @@ function weatherGreeting(now, sunrise, sunset){
   if(sunrise&&sunset){const n=now.getTime(),sr=new Date(sunrise).getTime(),ss=new Date(sunset).getTime();if(n<sr||n>ss)return h<4?'Csendes éjszakát, Nyíregyháza':'Jó estét, Nyíregyháza';}
   return h<10?'Jó reggelt, Nyíregyháza':h<17?'Szép napot, Nyíregyháza':'Jó estét, Nyíregyháza';
 }
+
+function clampNum(v,min,max){const n=Number(v);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):min}
+function parseMaybeDate(v){if(!v)return null; if(v instanceof Date)return isNaN(v.getTime())?null:v; const d=new Date(String(v)); return isNaN(d.getTime())?null:d}
+function twcIconUrl(code){const n=clampNum(Math.trunc(Number(code)||44),0,47);return `https://s.w-x.co/wx-next-dev/${String(n).padStart(2,'0')}.png?format=auto&optimize=medium&quality=68&width=240`}
+function moonCutByPhase(desc){const s=String(desc||'').toLowerCase(); if(s.includes('new'))return {opacity:.98,x:-6,y:-6}; if(s.includes('full'))return {opacity:0,x:0,y:0}; if(s.includes('first quarter'))return {opacity:.90,x:-18,y:-5}; if(s.includes('last quarter')||s.includes('third quarter'))return {opacity:.90,x:18,y:-5}; if(s.includes('wax'))return {opacity:.62,x:-12,y:-5}; if(s.includes('wan'))return {opacity:.62,x:12,y:-5}; return {opacity:.72,x:-10,y:-5}}
+function buildWeatherScene(current, astronomy, now){
+  const c=current||{}, a=astronomy||{};
+  const cloud=clampNum(c.cloudCover,0,100);
+  const sr=parseMaybeDate(a.sunriseTimeLocal||c.sunriseTimeLocal), ss=parseMaybeDate(a.sunsetTimeLocal||c.sunsetTimeLocal);
+  const mr=parseMaybeDate(a.moonriseTimeLocal), ms=parseMaybeDate(a.moonsetTimeLocal);
+  const month=now.getMonth()+1;
+  const season=month<=2||month===12?'winter':month<=5?'spring':month<=8?'summer':'autumn';
+  const code=Number(c.iconCode)||44;
+  const phrase=String(c.wxPhraseLong||c.wxPhraseShort||'').toLowerCase();
+  const rainCodes=new Set([5,6,7,8,9,10,11,12,17,18,19,20,21,22,23,24,25,26,27,28,35,37,38,39,40,42,43,45,46,47]);
+  const snowCodes=new Set([13,14,15,16,41,42,43,44]);
+  const stormCodes=new Set([37,38,39,40,41,42,43,45,46,47]);
+  const fog=(Number(c.visibility)<2.5)||[20,21,22].includes(code)||/(köd|fog)/i.test(phrase);
+  const snow=snowCodes.has(code)||/hó|havaz/.test(phrase);
+  const rain=(rainCodes.has(code)||Number(c.precip1Hour)>0.05)&&!snow;
+  const storm=stormCodes.has(code)||/(zivatar|vihar|jég|villám)/i.test(phrase);
+  const haze=/(pára|ködös|párás|füst|por|szmog|haze|dust)/i.test(phrase);
+  let phase='day',sunX=50,sunY=24,moonX=74,moonY=27;
+  if(sr&&ss){
+    const t=now.getTime(); const srMs=sr.getTime(), ssMs=ss.getTime(); const dawnWin=55*60*1000, duskWin=55*60*1000;
+    if(t<srMs){phase=(srMs-t<=dawnWin)?'dawn':'night'}
+    else if(t>ssMs){phase=(t-ssMs<=duskWin)?'dusk':'night'}
+    else { const span=Math.max(1,ssMs-srMs); const dayT=clampNum((t-srMs)/span,0,1); const ang=Math.PI*dayT; sunX=8+84*dayT; sunY=72-51*Math.sin(ang); phase='day'; }
+  } else phase=String(c.dayOrNight||'D').toUpperCase()==='N'?'night':'day';
+  if(phase==='dawn'){sunX=8;sunY=76}
+  if(phase==='dusk'){sunX=92;sunY=76}
+  const sunSize=Math.round(56+18*Math.max(0,Math.sin(Math.PI*Math.max(0,Math.min(1,(sr&&ss)?(now.getTime()-sr.getTime())/Math.max(1,ss.getTime()-sr.getTime()):.5)))));
+  if(mr&&ms&&phase==='night'){const span=Math.max(1,ms.getTime()-mr.getTime()); const mt=clampNum((now.getTime()-mr.getTime())/span,0,1); moonX=16+68*mt; moonY=73-44*Math.sin(Math.PI*mt)}
+  const moon=moonCutByPhase(a.lunarPhaseDescription||a.moonPhaseDescription||a.moonPhase);
+  const moonVisible=phase==='night'&&(!mr||!ms||(now>=mr&&now<=ms));
+  const moonStyle=moonVisible?`left:${moonX}%;top:${moonY}%;--moon-cut-opacity:${moon.opacity};--moon-cut-x:${moon.x}px;--moon-cut-y:${moon.y}px;`:'display:none';
+  const phenomenon=storm?'storm':snow?'snow':fog?'fog':rain?'rain':haze?'haze':'clear';
+  const cloudOpacity=(0.04+cloud/100*0.90).toFixed(2);
+  const rainOpacity=rain?Math.min(.34,.10+cloud/250):0;
+  const snowOpacity=snow?Math.min(.82,.28+cloud/145):0;
+  const fogOpacity=fog?Math.min(.42,.20+Math.max(0,2.5-Number(c.visibility||2.5))*.07):0;
+  const hazeOpacity=haze?.20:0;
+  const stormOpacity=storm?Math.min(.52,.18+cloud/180):0;
+  const sunLow=(phase==='dawn'||phase==='dusk')?'low':'';
+  return {
+    phase,season,phenomenon,
+    html:`<div class="scene-stars"></div><div class="scene-haze"></div><div class="scene-storm"></div><div class="scene-sun-wrap"><div class="scene-sun ${sunLow}" style="left:${sunX}%;top:${sunY}%;--sun-size:${sunSize}px"></div></div><div class="scene-moon" style="${moonStyle}"></div><div class="scene-cloud scene-cloud-a"></div><div class="scene-cloud scene-cloud-b"></div><div class="scene-cloud scene-cloud-c"></div><div class="scene-cloud scene-cloud-d"></div><div class="scene-cloud scene-cloud-e"></div><div class="scene-rain"></div><div class="scene-snow"></div><div class="scene-fog"></div><div class="scene-horizon"></div><div class="scene-label">${phase==='night'?'ÉJSZAKAI ÉG':phase==='dawn'?'HAJNALI ÉG':phase==='dusk'?'ALKONYATI ÉG':'NAPPALI ÉG'} · ${phenomenon==='storm'?'VIHAR':phenomenon==='snow'?'HAVAZÁS':phenomenon==='rain'?'CSAPADÉK':phenomenon==='fog'?'KÖD':phenomenon==='haze'?'PÁRÁS LEVEGŐ':'AKTUÁLIS ÉG'}</div><div class="scene-measure"><b>${Math.round(cloud)}%</b>FELHŐBORÍTÁS</div>`,
+    style:`--cloud-opacity:${cloudOpacity};--rain-opacity:${rainOpacity};--snow-opacity:${snowOpacity};--fog-opacity:${fogOpacity};--haze-opacity:${hazeOpacity};--storm-opacity:${stormOpacity};`
+  };
+}
 function renderLiveWeather(data){
   liveWeatherData=data||null;
   const c=data?.current||{}; const a=data?.astronomy||{}; const f=data?.hourly||[]; const days=data?.daily||[]; const alerts=data?.alerts||[];
-  const now=new Date(); const sunrise=a.sunriseTimeLocal||c.sunriseTimeLocal; const sunset=a.sunsetTimeLocal||c.sunsetTimeLocal;
+  const now=new Date(); const sunrise=a.sunriseTimeLocal||c.sunriseTimeLocal; const sunset=a.sunsetTimeLocal||c.sunsetTimeLocal; const moonIllum=num(a.moonIllumination ?? a.moonIlluminationPercent); const moonPhase=a.lunarPhaseDescription||a.moonPhaseDescription||a.moonPhase||'';
   const isDay = String(c.dayOrNight||'D').toUpperCase()==='D' && !(sunrise&&sunset&& (now<new Date(sunrise)||now>new Date(sunset)));
-  const temp=num(c.temperature), feels=num(c.temperatureFeelsLike), wind=num(c.windSpeed), gust=num(c.windGust), hum=num(c.relativeHumidity), uv=num(c.uvIndex), press=num(c.pressureMeanSeaLevel ?? c.pressure), p1=num(c.precip1Hour), p24=num(c.precip24Hour), visibilityKm=num(c.visibility);
+  const temp=num(c.temperature), feels=num(c.temperatureFeelsLike), wind=num(c.windSpeed), gust=num(c.windGust), hum=num(c.relativeHumidity), uv=num(c.uvIndex), press=num(c.pressureMeanSeaLevel ?? c.pressure), p1=num(c.precip1Hour), p24=num(c.precip24Hour), visibilityKm=num(c.visibility), cloud=num(c.cloudCover);
   $('heroGreeting').textContent=weatherGreeting(now,sunrise,sunset);
   $('heroCondition').textContent=c.wxPhraseLong||c.wxPhraseShort||'Élő időjárási adatok';
-  $('heroNarrative').textContent=(c.wxPhraseLong||'')+(p1>0?` · Az elmúlt órában ${p1.toFixed(1)} mm csapadék érkezett.`:'')+(alerts.length?` · ${alerts.length} aktív időjárási figyelmeztetés.`:'');
+  $('heroNarrative').textContent=(c.wxPhraseLong||'')+(cloud!=null?` · Felhőborítás ${Math.round(cloud)}%.`:'')+(p1>0?` · Az elmúlt órában ${p1.toFixed(1)} mm csapadék érkezett.`:'')+(alerts.length?` · ${alerts.length} aktív időjárási figyelmeztetés.`:'');
   $('heroClock').textContent=fmtNow();
   $('heroWeatherUpdated').textContent='Időjárás frissítve: '+fmtDateTime(data.fetchedAt||Date.now());
   $('heroSource').textContent='The Weather Company · 15 perc + órás + napi + csillagászati adatok';
@@ -908,16 +1087,16 @@ function renderLiveWeather(data){
   $('heroWind').textContent=wind!=null?`${wind.toFixed(1)} km/h ${c.windDirectionCardinal||''}`:'—';
   $('heroAlert').textContent=alerts.length?`${alerts.length} aktív`:'Nyugodt';
   $('heroSunrise').textContent=fmtClockTime(sunrise); $('heroSunset').textContent=fmtClockTime(sunset);
-  $('heroMoon').textContent=`${mapMoonPhase(a.moonPhaseDescription||a.moonPhase||c.moonPhase)} · ${num(a.moonIlluminationPercent)!=null?Math.round(a.moonIlluminationPercent)+'%':'—'}`;
+  $('heroMoon').textContent=`${mapMoonPhase(moonPhase)} · ${moonIllum!=null?Math.round(moonIllum)+'%':'—'}`;
   $('heroRain').textContent=`${p1!=null?p1.toFixed(1):'0.0'} / ${p24!=null?p24.toFixed(1):'0.0'} mm`;
   $('heroGust').textContent=gust!=null?`${gust.toFixed(1)} km/h`:'—';
   $('heroUv').textContent=uv!=null?String(uv):'—'; $('heroHumidity').textContent=hum!=null?`${hum}%`:'—'; $('heroPressure').textContent=press!=null?`${Math.round(press)} hPa`:'—';
-  const dew=num(c.temperatureDewPoint), cloud=num(c.cloudCover), pTrend=c.pressureTendencyTrend||c.pressureTendencyCode||'—';
+  const dew=num(c.temperatureDewPoint), pTrend=c.pressureTendencyTrend||c.pressureTendencyCode||'—';
   $('heroDew').textContent=dew!=null?`${dew.toFixed(1)} °C`:'—'; $('heroVisibility').textContent=visibilityKm!=null?`${visibilityKm.toFixed(1)} km`:'—'; $('heroCloudCover').textContent=cloud!=null?`${cloud}%`:'—'; $('heroPressureTrend').textContent=String(pTrend);
   const alertStrip=$('heroAlertStrip'); if(alertStrip){ if(alerts.length){ const shown=alerts.slice(0,3).map(a=>`<div class=\"alert-item\"><span class=\"alert-icon\">⚠</span><div><b>${esc(a.headline||'Időjárási figyelmeztetés')}</b>${a.severity?` · ${esc(a.severity)}`:''}</div></div>`).join(''); alertStrip.hidden=false; alertStrip.innerHTML=shown; } else { alertStrip.hidden=true; alertStrip.innerHTML=''; } }
-  $('heroWeatherGraphic').innerHTML=weatherIconSvg(c.iconCode,isDay,230);
+  const scene=buildWeatherScene(c,a,now); const sceneEl=$('heroWeatherScene'); if(sceneEl){sceneEl.className='weather-scene phase-'+scene.phase+' season-'+scene.season+' phenomenon-'+scene.phenomenon; sceneEl.setAttribute('style',scene.style); sceneEl.innerHTML=scene.html;} const scenePct=$('heroSceneCloudPct'); if(scenePct)scenePct.textContent=cloud!=null?Math.round(cloud)+'%':'—%';
   const visText=visibilityKm!=null?` · látás ${visibilityKm.toFixed(1)} km`:'';
-  $('heroAstroLine').textContent=`${isDay?'☀ Nappal':'☾ Éjszaka'} · napkelte ${fmtClockTime(sunrise)} · napnyugta ${fmtClockTime(sunset)} · hold ${mapMoonPhase(a.moonPhaseDescription||a.moonPhase)}${visText}`;
+  $('heroAstroLine').textContent=`${isDay?'☀ Nappal':'☾ Éjszaka'} · napkelte ${fmtClockTime(sunrise)} · napnyugta ${fmtClockTime(sunset)} · hold ${mapMoonPhase(moonPhase)}${moonIllum!=null?' · '+Math.round(moonIllum)+'% megvilágítás':''}${visText}`;
   const cards=[]; const first=(Array.isArray(f)?f:[]).filter(x=>x?.validTimeLocal).slice(0,6); for(const x of first){cards.push(`<div class="forecast-chip"><div class="ficon">${weatherIconSvg(x.iconCode,String(x.dayOrNight||'D').toUpperCase()==='D',40)}</div><div><small>${fmtClockTime(x.validTimeLocal)}</small><b>${esc(x.wxPhraseLong||x.wxPhraseShort||'—')}</b></div><div class="f-temp">${num(x.temperature)!=null?Math.round(x.temperature)+'°':''}</div></div>`)}
   if(!cards.length && Array.isArray(days)){for(const d of days.slice(0,6)){const dIcon=d.iconCode??d.daypart?.iconCode?.[0]??0; cards.push(`<div class="forecast-chip"><div class="ficon">${weatherIconSvg(dIcon,true,40)}</div><div><small>${esc(d.dayOfWeek||'—')}</small><b>${esc(d.wxPhraseLong||d.narrative||'—')}</b></div><div class="f-temp">${num(d.temperatureMax)!=null?Math.round(d.temperatureMax)+'°':''}</div></div>`)}}
   $('heroForecast').innerHTML=cards.join('');
