@@ -508,7 +508,38 @@ html{scroll-behavior:auto !important}
 .chat-list,.chat-row,.chat-bubble,.chat-body{scroll-snap-align:none !important;scroll-snap-stop:normal !important}
 @media(max-width:820px){.chat-entry .chat-body{max-height:none !important;overflow:visible !important}}
 
+
+/* V20 — scroll/performance layer: stabil, 60fps-közeli görgetés gyengébb gépen is */
+html{scroll-behavior:auto !important;scrollbar-gutter:stable;}
+#archiveList{overflow-anchor:none;}
+.chat-entry{contain:layout paint;}
+.chat-entry .chat-body{overflow:visible !important;max-height:none !important;height:auto !important;}
+.chat-entry-new{animation:chatEntryInFast .42s cubic-bezier(.22,.78,.18,1) both !important;}
+.chat-entry-new .chat-avatar{animation:chatAvatarInFast .48s cubic-bezier(.22,.78,.18,1) both !important;}
+@keyframes chatEntryInFast{from{opacity:0;transform:translate3d(0,8px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes chatAvatarInFast{from{opacity:.65;transform:translate3d(-5px,0,0) scale(.96)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+/* A korábbi V18/V19 box-shadow villogását kikapcsoljuk; kompozitálható transform/opacity marad. */
+.chat-entry-new .chat-bubble{animation:none !important;}
+/* A scroll közben drága blur- és nagyméretű árnyékrétegek ne terheljék a GPU/CPU-t. */
+.perf-lite body:before,.perf-lite body:after{display:none !important;}
+.perf-lite .hero .pill,.perf-lite .hero-point,.perf-lite .hero-card,.perf-lite .topbar,.perf-lite .tabs,.perf-lite .card,.perf-lite .stat,.perf-lite .hero-live-card,.perf-lite .weather-data-card,.perf-lite .forecast-chip{
+  backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+}
+.perf-lite .hero-cloud,.perf-lite .orb-b,.perf-lite .weather-stage-glow{filter:none !important;}
+.perf-lite .hero,.perf-lite .card,.perf-lite .chat-bubble,.perf-lite .stat,.perf-lite .chat-avatar{box-shadow:0 6px 18px rgba(20,40,70,.08) !important;}
+.perf-lite .hero:after{box-shadow:none !important;}
+.perf-lite .btn{transition:background-color .12s ease,border-color .12s ease,color .12s ease !important;box-shadow:none !important;transform:none !important;filter:none !important;}
+@media (max-width:820px){
+  .hero .pill,.hero-point,.hero-card,.topbar,.tabs,.card,.stat,.hero-live-card,.weather-data-card,.forecast-chip{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;}
+  .hero,.card,.chat-bubble,.stat,.chat-avatar{box-shadow:0 5px 16px rgba(20,40,70,.07) !important;}
+  .hero:after{box-shadow:none !important;}
+  .chat-entry-new{animation-duration:.30s !important;}
+}
+@media (prefers-reduced-motion:reduce){.chat-entry-new,.chat-entry-new .chat-avatar{animation:none !important}.btn,.tab,input,select{transition:none !important}}
 </style>
+<script>
+(function(){try{var n=navigator||{},c=Number(n.hardwareConcurrency||8),m=Number(n.deviceMemory||8),touch=('ontouchstart' in window)||(n.maxTouchPoints>0),save=!!(n.connection&&n.connection.saveData);if(c<=4||m<=4||touch||save)document.documentElement.classList.add('perf-lite')}catch(e){}})();
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -629,13 +660,56 @@ function addDays(d,n){const x=new Date(d+'T12:00:00Z');x.setUTCDate(x.getUTCDate
 function dayDiff(a,b){return Math.round(Math.abs(new Date(a+'T12:00:00Z')-new Date(b+'T12:00:00Z'))/86400000)}
 const typeName={ige:'🕊 Ige',reggel:'🌅 Reggel',del:'🍽 Dél',erdekesseg:'💡 Érdekesség',este:'🌇 Este',eso:'🌧️ Eső',riasztas:'🚨 Riasztás',telegram:'💬 Telegram',telegram_temp:'🧪 Ideiglenes'};
 let archiveSeenIds=new Set(), archiveFirstRender=true;
-function archiveMessageHtml(value){let s=esc(repairBrowserMojibake(value));s=s.replace(/^###\s+(.+)$/gm,'<div class="chat-heading">$1</div>');s=s.replace(/\*\*(.+?)\*\*/gs,'<strong>$1</strong>');s=s.replace(/\*([^*\n]+)\*/g,'<em>$1</em>');s=s.replace(/^\s*---\s*$/gm,'<div class="chat-divider"></div>');return s.replace(/\n/g,'<br>')}
+function archiveMessageHtml(value){
+  let s=repairBrowserMojibake(value??'').replace(/\\(?=<\/?[a-z][^>]*>)/gi,'').replace(/\\"/g,'"');
+  // A küldő HTML/Markdown keverése miatt előforduló árva formázásjelölések ne jelenjenek meg.
+  s=s.replace(/\*\*\s*<\/?(?:b|strong|i|em|u|a)(?:\s+[^>]*)?>\s*\*\*/gi,'');
+  s=s.replace(/\*\*\s*<a\b[^>]*>\s*\*\*/gi,'$&'.replace(/\*\*/g,''));
+  try{const ta=document.createElement('textarea');ta.innerHTML=s;s=ta.value}catch{}
+  const tags=[];
+  const putTag=tag=>{const id=tags.length;tags.push(tag);return `\uE000${id}\uE001`};
+  const stack=[];
+  const openTag=(tag,name)=>{stack.push(name);return putTag(tag)};
+  const closeTag=(tag,name)=>{
+    const i=stack.lastIndexOf(name);
+    if(i<0)return '';
+    stack.splice(i,1);
+    return putTag(tag);
+  };
+  s=s.replace(/<\/?(?:b|strong|i|em|u|br)\s*\/?>/gi,m=>{
+    const n=(m.match(/^<\/?([a-z]+)/i)||[])[1]?.toLowerCase();
+    if(!n)return '';
+    if(m.startsWith('</'))return closeTag(m.toLowerCase().replace(/\s+/g,''),n);
+    if(n==='br')return putTag('<br>');
+    return openTag(m.toLowerCase().replace(/\s+/g,''),n);
+  });
+  s=s.replace(/<a\s+[^>]*href\s*=\s*(["'])(.*?)\1\s*>/gi,(m,q,href)=>{
+    const h=String(href).trim();
+    if(!/^(?:https?:\/\/|mailto:)/i.test(h))return '';
+    const safe=h.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    stack.push('a');
+    return putTag(`<a href="${safe}" target="_blank" rel="noopener noreferrer">`);
+  });
+  s=s.replace(/<\/a>/gi,()=>{
+    const i=stack.lastIndexOf('a');
+    if(i<0)return '';
+    stack.splice(i,1);
+    return putTag('</a>');
+  });
+  s=s.replace(/^###\s+(.+)$/gm,(m,t)=>putTag(`<div class="chat-heading">${esc(t)}</div>`));
+  s=s.replace(/^\s*---\s*$/gm,putTag('<div class="chat-divider"></div>'));
+  s=esc(s);
+  s=s.replace(/\*\*(.+?)\*\*/gs,'<strong>$1</strong>');
+  s=s.replace(/\*([^*\n]+)\*/g,'<em>$1</em>');
+  s=s.replace(/\uE000(\d+)\uE001/g,(m,id)=>tags[Number(id)]??'');
+  s=s.replace(/<\/(?:b|strong|i|em|u|a)>/gi,(m)=>m);
+  return s.replace(/\n/g,'<br>');
+}
 async function api(path,opt={}){const r=await fetch(worker()+path,{...opt,headers:{...headers(),...(opt.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||('HTTP '+r.status));return d}
 let archiveRenderSignature='';
-let archiveUserScrolled=false;
-window.addEventListener('scroll',()=>{archiveUserScrolled=window.scrollY>180},{passive:true});
-function archiveSignature(map){return Object.values(map||{}).sort((a,b)=>String(a.id||'').localeCompare(String(b.id||''))).map(x=>[x.id,x.sentAt,x.text,x.type,x.telegramMessageId,x.backfilled,x.transient].join('|')).join('\u241e')}
-async function loadAll(){if(!$('key').value.trim()){setStatus('globalStatus','warn','Add meg az admin kódot.');return}try{const d=await api('/api/dashboard');const oldSig=archiveRenderSignature;const newSig=archiveSignature(d.archive);DATA=d;const shouldRenderArchive = !oldSig || oldSig!==newSig || !$('archiveList').children.length; if(shouldRenderArchive){renderAll(shouldRenderArchive)}else{renderSummaryOnly()}setStatus('globalStatus','ok','Frissítve: '+fmtDateTime(Date.now()));if(!timer)timer=setInterval(loadAll,3000)}catch(e){setStatus('globalStatus','error','Hiba: '+e.message);if(timer){clearInterval(timer);timer=null}}}
+function archiveSignature(map){let h=2166136261>>>0,n=0;for(const [k,x] of Object.entries(map||{})){n++;const s=String(k)+'|'+String(x?.sentAt||'')+'|'+String(x?.type||'')+'|'+String(x?.telegramMessageId||'')+'|'+String(x?.text||'')+'|'+(x?.backfilled?'1':'0')+'|'+(x?.transient?'1':'0');for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}}return n+':'+(h>>>0)}
+async function loadAll(){if(document.hidden)return;if(!$('key').value.trim()){setStatus('globalStatus','warn','Add meg az admin kódot.');return}try{const d=await api('/api/dashboard');const oldSig=archiveRenderSignature;const newSig=archiveSignature(d.archive);DATA=d;const shouldRenderArchive=!oldSig||oldSig!==newSig||!$('archiveList').children.length;if(shouldRenderArchive){renderAll(true)}else{renderSummaryOnly()}setStatus('globalStatus','ok','Frissítve: '+fmtDateTime(Date.now()));if(!timer)timer=setInterval(loadAll,5000)}catch(e){setStatus('globalStatus','error','Hiba: '+e.message);if(timer){clearInterval(timer);timer=null}}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&$('key').value.trim())loadAll()},{passive:true})
 function setStatus(id,cls,msg){$(id).className='status '+cls;$(id).textContent=msg}
 function renderSummaryOnly(){const a=Object.values(DATA.archive||{}).sort((x,y)=>Number(y.sentAt)-Number(x.sentAt));$('sArchive').textContent=a.length;const p=Object.values(DATA.plan||{});$('sVerse').textContent=p.filter(x=>x.sent||x.sentAt).length;$('sPending').textContent=p.filter(x=>!(x.sent||x.sentAt)).length;const t=Object.values(DATA.trivia||{});$('sTrivia').textContent=t.length;const td=today();$('sToday').textContent=a.filter(x=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Budapest'}).format(new Date(x.sentAt))===td).length;const vd=findVerseDuplicates();const tdps=findTriviaDuplicates();$('sDup').textContent=vd.length;$('sTriviaDup').textContent=tdps.length}
 function renderAll(renderChat=true){renderSummaryOnly();if(renderChat)renderArchive();renderVerses();renderVerseDuplicates();renderTrivia();renderTriviaDuplicates();archiveRenderSignature=archiveSignature(DATA.archive)}
